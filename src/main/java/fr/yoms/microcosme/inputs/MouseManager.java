@@ -6,7 +6,8 @@ import java.awt.event.*;
 
 public class MouseManager implements MouseListener, MouseMotionListener{
 
-    private boolean leftClick, rightClick;
+    private boolean leftClick, justPressedLeftClick, cantPressLeftClick, 
+                    rightClick, justPressedRightClick, cantPressRightClick;
     private final Position mousePosition = new Position(0, 0);
 
     @Override
@@ -30,10 +31,41 @@ public class MouseManager implements MouseListener, MouseMotionListener{
                 .setY(e.getY());
     }
 
-    public boolean isLeftClickPressed() {
+    public void update() {
+
+        if (cantPressLeftClick && !leftClick)
+            cantPressLeftClick = false;
+        else if (justPressedLeftClick) {
+
+            cantPressLeftClick = true;
+            justPressedLeftClick = false;
+        }
+        if (!cantPressLeftClick && leftClick)
+            justPressedLeftClick = true;
+        
+        if (cantPressRightClick && !rightClick)
+            cantPressRightClick = false;
+        else if (justPressedRightClick) {
+
+            cantPressRightClick = true;
+            justPressedRightClick = false;
+        }
+        if (!cantPressRightClick && rightClick)
+            justPressedRightClick = true;
+    }
+
+    public boolean leftClickJustPressed() {
+
+        return justPressedLeftClick;
+    }
+    public boolean rightClickJustPressed() {
+
+        return justPressedRightClick;
+    }
+    public boolean leftClickPressed() {
         return leftClick;
     }
-    public boolean isRightClickPressed() {
+    public boolean rightClickPressed() {
         return rightClick;
     }
     public Position getMousePosition() {

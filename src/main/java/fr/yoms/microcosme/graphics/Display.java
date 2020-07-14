@@ -1,4 +1,4 @@
-package fr.yoms.microcosme.display;
+package fr.yoms.microcosme.graphics;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ public class Display {
     private final String title;
     private final int height, width;
 
-    public Display(String title, int height, int width) {
+    public Display(String title, int width, int height) {
 
         this.title = title;
         this.height = height;
@@ -25,6 +25,7 @@ public class Display {
         this.frame = new JFrame(title);
 
         this.frame.setSize(this.width, this.height);
+        this.frame.setIconImage(Ressources.HEAD);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.frame.setResizable(false);
         this.frame.setLocationRelativeTo(null);

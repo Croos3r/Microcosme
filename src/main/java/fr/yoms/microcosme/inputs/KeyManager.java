@@ -3,13 +3,20 @@ package fr.yoms.microcosme.inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import static java.awt.event.KeyEvent.*;
+
 public class KeyManager implements KeyListener {
 
     private final boolean[] keys = new boolean[256];
+
     private final boolean[] justPressedKeys = new boolean[keys.length];
     private final boolean[] cantPressKeys = new boolean[keys.length];
 
-    private boolean debugKey;
+    public boolean debug;
+    public boolean up;
+    public boolean down;
+    public boolean left;
+    public boolean right;
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -41,9 +48,12 @@ public class KeyManager implements KeyListener {
                 justPressedKeys[i] = true;
         }
 
-        if (keyJustPressed(KeyEvent.VK_F3)) debugKey = !debugKey;
+        if (keyJustPressed(VK_F3)) debug = !debug;
 
-
+        up      = keys[VK_Z];
+        down    = keys[VK_S];
+        left    = keys[VK_Q];
+        right   = keys[VK_D];
     }
 
     public boolean keyJustPressed(int keyCode){
@@ -51,9 +61,10 @@ public class KeyManager implements KeyListener {
             return justPressedKeys[keyCode];
         else return false;
     }
+    public boolean keyPressed(int keyCode) {
 
-
-    public boolean getDebugKey() {
-        return debugKey;
+        if(keyCode >= 0 && keyCode < keys.length)
+        return keys[keyCode];
+        else return false;
     }
 }
