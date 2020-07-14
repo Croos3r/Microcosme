@@ -1,6 +1,8 @@
 package fr.yoms.microcosme;
 
 import fr.yoms.microcosme.display.Display;
+import fr.yoms.microcosme.inputs.KeyManager;
+import fr.yoms.microcosme.inputs.MouseManager;
 import fr.yoms.microcosme.utils.Images;
 
 import java.awt.*;
@@ -18,10 +20,19 @@ public class Microcosme implements Runnable {
     private BufferStrategy bufferStrategy;
     private Graphics graphics;
 
+    private final Handler handler;
+
+    private final MouseManager mouseManager;
+    private final KeyManager keyManager;
+
     public Microcosme(Display display, int fps) {
 
         this.display = display;
         this.fps = fps;
+
+        handler = new Handler(this);
+        mouseManager = new MouseManager();
+        keyManager = new KeyManager();
     }
 
     public Microcosme(String title, int height, int width, int fps) {
@@ -29,6 +40,10 @@ public class Microcosme implements Runnable {
 
         this.display = new Display(title, height, width);
         this.fps = fps;
+
+        handler = new Handler(this);
+        mouseManager = new MouseManager();
+        keyManager = new KeyManager();
     }
 
     @Override
@@ -77,38 +92,55 @@ public class Microcosme implements Runnable {
         stop();
     }
 
-    private final BufferedImage image = Images.loadImage("/textures/image.jpg");
+    private final BufferedImage image = Images.loadImage("/textures/bodes1.png");
+
 
     private void update() {
+
 
     }
 
     private void render() {
 
+        if (!preRender()) return;
+
+
+        if (keyManager.getDebugKey()) {
+
+            graphics.drawString("Y: " + mouseManager.getMousePosition().getY(), (int) mouseManager.getMousePosition().getX(), (int) mouseManager.getMousePosition().getY() + 35);
+            graphics.drawString("X: " + mouseManager.getMousePosition().getX(), (int) mouseManager.getMousePosition().getX(), (int) mouseManager.getMousePosition().getY() + 50);
+        }
+
+
+        postRender();
+    }
+
+    private void postRender() {
+        bufferStrategy.show();
+        graphics.dispose();
+    }
+
+    private boolean preRender() {
         bufferStrategy = display.getCanvas().getBufferStrategy();
 
         if (bufferStrategy == null) {
 
             display.getCanvas().createBufferStrategy(3);
-            return;
+            return false;
         }
 
         graphics = bufferStrategy.getDrawGraphics();
-
-
         graphics.clearRect(0, 0, display.getWidth(), display.getHeight());
-
-
-        graphics.drawImage(image, 0, 0, null);
-
-
-        bufferStrategy.show();
-        graphics.dispose();
+        return true;
     }
 
     private void init() {
 
-
+        display.getFrame().addMouseListener(mouseManager);
+        display.getCanvas().addMouseListener(mouseManager);
+        display.getFrame().addMouseMotionListener(mouseManager);
+        display.getCanvas().addMouseMotionListener(mouseManager);
+        display.getFrame().addKeyListener(keyManager);
     }
 
     public synchronized void start() {
@@ -135,8 +167,20 @@ public class Microcosme implements Runnable {
         }
     }
 
+    public Handler getHandler() {
+
+        return handler;
+    }
     public Display getDisplay() {
 
         return display;
+    }
+    public KeyManager getKeyManager() {
+
+        return keyManager;
+    }
+    public MouseManager getMouseManager() {
+
+        return mouseManager;
     }
 }

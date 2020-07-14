@@ -4,10 +4,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class Position {
 
-    private double x;
-    private double y;
+    public static double distanceBetween(Position pos1, Position pos2) {
 
-    public Position(int x, int y) {
+        return Math.sqrt(Math.pow(pos2.x - pos1.x, 2) + Math.pow(pos2.y + pos1.y, 2));
+    }
+
+    private float x;
+    private float y;
+
+    public Position(float x, float y) {
 
         this.x = x;
         this.y = y;
@@ -19,23 +24,23 @@ public class Position {
         this.y = position.y;
     }
 
-    public double getX() {
+    public float getX() {
         return x;
     }
-    public Position setX(int x) {
+    public Position setX(float x) {
         this.x = x;
         return this;
     }
 
-    public double getY() {
+    public float getY() {
         return y;
     }
-    public Position setY(int y) {
+    public Position setY(float y) {
         this.y = y;
         return this;
     }
 
-    public Position add(double x, double y) {
+    public Position add(float x, float y) {
 
         this.x += x;
         this.y += y;
@@ -49,7 +54,7 @@ public class Position {
 
         return this;
     }
-    public Position substract(double x, double y) {
+    public Position substract(float x, float y) {
 
         this.x -= x;
         this.y -= y;
@@ -64,5 +69,8 @@ public class Position {
         return this;
     }
 
+    public double distanceTo(Position position) {
 
+        return distanceBetween(this, position);
+    }
 }

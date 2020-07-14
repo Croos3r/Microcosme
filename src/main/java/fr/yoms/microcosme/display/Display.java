@@ -34,6 +34,7 @@ public class Display {
         this.canvas.setPreferredSize(new Dimension(this.width, this.height));
         this.canvas.setMaximumSize(new Dimension(this.width, this.height));
         this.canvas.setMinimumSize(new Dimension(this.width, this.height));
+        this.canvas.setFocusable(false);
 
         this.frame.add(this.canvas);
         this.frame.pack();
@@ -51,5 +52,8 @@ public class Display {
     public Canvas getCanvas() {
 
         return canvas;
+    }
+    public JFrame getFrame() {
+        return frame;
     }
 }
