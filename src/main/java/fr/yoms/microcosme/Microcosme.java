@@ -223,7 +223,7 @@ public class Microcosme implements Runnable {
 
         for (Entity entity: entityManager.getEntities()) {
 
-            if (entity.getHitBox().contains(mousePosition.getX(), mousePosition.getY())) {
+            if (entity.getHitBox(0, 0).contains(mousePosition.getX(), mousePosition.getY())) {
 
                 mouseLines.add("Entity : " + entity.toString() + (entityManager.getSelectedEntity() == entity ? " SEL" : ""));
                 break;
@@ -243,7 +243,7 @@ public class Microcosme implements Runnable {
             graphics.setColor(Color.blue);
             entityManager.getEntities().forEach(entity -> {
 
-                Rectangle hitBox = entity.getHitBox();
+                Rectangle hitBox = entity.getHitBox(0, 0);
                 graphics.drawRect(hitBox.x, hitBox.y, hitBox.width, hitBox.height);
             });
 

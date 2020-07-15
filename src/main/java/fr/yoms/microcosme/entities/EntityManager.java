@@ -6,13 +6,15 @@ import fr.yoms.microcosme.utils.Position;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EntityManager {
 
     private final Handler handler;
-    private final ArrayList<Entity> entities;
     private Entity selectedEntity = null;
+    private final ArrayList<Entity> entities;
+    private final Comparator<Entity> renderSorter = (entity1, entity2) -> Float.compare(entity1.getPosition().getY(), entity2.getPosition().getY());
 
     public EntityManager(Handler handler) {
 
@@ -33,7 +35,7 @@ public class EntityManager {
 
             entities.forEach(entity -> {
 
-                if (entity.getHitBox().contains(mousePosition.getX(), mousePosition.getY())) {
+                if (entity.getHitBox(0, 0).contains(mousePosition.getX(), mousePosition.getY())) {
 
                     if (selectedEntity == entity) selectedEntity = null;
                     else selectedEntity = entity;
@@ -46,6 +48,7 @@ public class EntityManager {
 
     public void render(Graphics graphics) {
 
+        entities.sort(renderSorter);
         entities.forEach(entity -> entity.render(graphics));
 
         drawEntitySelector(graphics);

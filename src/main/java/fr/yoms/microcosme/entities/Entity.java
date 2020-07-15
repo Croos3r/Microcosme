@@ -4,6 +4,7 @@ import fr.yoms.microcosme.Handler;
 import fr.yoms.microcosme.utils.Position;
 
 import java.awt.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class Entity {
 
@@ -61,9 +62,19 @@ public abstract class Entity {
         this.height = height;
     }
 
-    public Rectangle getHitBox() {
+    public boolean checkEntityCollision(float xOffset, float yOffset) {
 
-        return hitBox;
+        for (Entity entity : handler.getGame().getEntityManager().getEntities()) {
+            if (entity.equals(this)) continue;
+            if (entity.getHitBox(0, 0).intersects(getHitBox(xOffset, yOffset)))
+                return true;
+        }
+        return false;
+    }
+
+    public Rectangle getHitBox(float xOffset, float yOffset) {
+
+        return new Rectangle((int) (hitBox.x + xOffset), (int) (hitBox.y + yOffset), hitBox.width, hitBox.height);
     }
     public void setHitBox(Rectangle hitBox) {
 
