@@ -5,6 +5,7 @@ import fr.yoms.microcosme.entities.EntityManager;
 import fr.yoms.microcosme.entities.livings.animals.Animal;
 import fr.yoms.microcosme.entities.livings.animals.Headnimal;
 import fr.yoms.microcosme.graphics.Display;
+import fr.yoms.microcosme.graphics.Ressources;
 import fr.yoms.microcosme.inputs.KeyManager;
 import fr.yoms.microcosme.inputs.MouseManager;
 import fr.yoms.microcosme.utils.Position;
@@ -33,6 +34,7 @@ public class Microcosme implements Runnable {
     private final MouseManager mouseManager;
     private final KeyManager keyManager;
     private final EntityManager entityManager;
+    private final Ressources ressources;
 
     private int TPS;
     private int FPS;
@@ -47,6 +49,7 @@ public class Microcosme implements Runnable {
 
         handler = new Handler(this);
         entityManager = new EntityManager(handler);
+        ressources = new Ressources();
     }
     public Microcosme(String title, int width, int height, int maxTPS) {
 
@@ -59,15 +62,19 @@ public class Microcosme implements Runnable {
 
         handler = new Handler(this);
         entityManager = new EntityManager(handler);
+        ressources = new Ressources();
     }
 
     private void init() {
+
+        ressources.init();
 
         display.getFrame().addMouseListener(mouseManager);
         display.getCanvas().addMouseListener(mouseManager);
         display.getFrame().addMouseMotionListener(mouseManager);
         display.getCanvas().addMouseMotionListener(mouseManager);
         display.getFrame().addKeyListener(keyManager);
+        display.getFrame().setIconImage(ressources.head);
 
         try {
 
@@ -151,8 +158,7 @@ public class Microcosme implements Runnable {
 
         if (!preRender()) return;
 
-        graphics.setColor(Color.black);
-        graphics.fillRect(0, 0, display.getWidth(), display.getHeight());
+        graphics.drawImage(ressources.background, 0, 0, display.getWidth(), display.getHeight(), null);
 
 
         entityManager.render(graphics);
@@ -222,7 +228,7 @@ public class Microcosme implements Runnable {
 
         final Position mousePosition = mouseManager.getMousePosition();
         LinkedList<Object> mouseLines = new LinkedList<>(Arrays.asList(
-                Color.RED,
+                Color.WHITE,
                 "X: " + mousePosition.getX(),
                 "Y: " + mousePosition.getY()
         ));
@@ -256,7 +262,7 @@ public class Microcosme implements Runnable {
                     Animal animal = (Animal) entity;
                     if (animal.getDestination() != null){
 
-                        graphics.setColor(Color.RED);
+                        graphics.setColor(Color.BLUE);
                         graphics.drawLine(
                                 (int) animal.getPosition().getX(),
                                 (int) animal.getPosition().getY(),
@@ -329,6 +335,10 @@ public class Microcosme implements Runnable {
 
         return entityManager;
     }
+    public Ressources getRessources() {
+
+        return ressources;
+    }
     public int getTPS() {
 
         return TPS;
@@ -337,5 +347,4 @@ public class Microcosme implements Runnable {
 
         return maxTPS;
     }
-
 }

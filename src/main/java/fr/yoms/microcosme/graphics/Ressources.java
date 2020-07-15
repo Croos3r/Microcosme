@@ -6,6 +6,12 @@ import java.awt.image.BufferedImage;
 
 public class Ressources {
 
-    public static final BufferedImage BACKGROUND    = Images.loadImage("/textures/background.jpg");
-    public static final BufferedImage HEAD          = Images.loadImage("/textures/bodes1.png");
+    public BufferedImage background;
+    public BufferedImage head;
+
+    public void init() {
+
+        background = Images.loadImage("/textures/background.jpg");
+        head = Images.loadImage("/textures/bodes1.png");
+    }
 }

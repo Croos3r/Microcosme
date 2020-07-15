@@ -2,7 +2,6 @@ package fr.yoms.microcosme.entities.livings.animals;
 
 import fr.yoms.microcosme.Handler;
 import fr.yoms.microcosme.entities.Entity;
-import fr.yoms.microcosme.graphics.Ressources;
 import fr.yoms.microcosme.utils.Position;
 
 import java.awt.*;
@@ -73,6 +72,6 @@ public class Headnimal extends Animal {
     @Override
     public void render(Graphics graphics) {
 
-        graphics.drawImage(Ressources.HEAD, (int) position.getX() - width / 2, (int) (position.getY() - height / 2), width, height, null);
+        graphics.drawImage(handler.getGame().getRessources().head, (int) position.getX() - width / 2, (int) (position.getY() - height / 2), width, height, null);
     }
 }

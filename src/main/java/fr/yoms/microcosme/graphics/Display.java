@@ -25,7 +25,6 @@ public class Display {
         this.frame = new JFrame(title);
 
         this.frame.setSize(this.width, this.height);
-        this.frame.setIconImage(Ressources.HEAD);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.frame.setResizable(false);
         this.frame.setLocationRelativeTo(null);
