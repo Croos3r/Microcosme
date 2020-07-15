@@ -2,6 +2,7 @@ package fr.yoms.microcosme;
 
 import fr.yoms.microcosme.entities.Entity;
 import fr.yoms.microcosme.entities.EntityManager;
+import fr.yoms.microcosme.entities.livings.animals.Animal;
 import fr.yoms.microcosme.entities.livings.animals.Headnimal;
 import fr.yoms.microcosme.graphics.Display;
 import fr.yoms.microcosme.inputs.KeyManager;
@@ -10,9 +11,9 @@ import fr.yoms.microcosme.utils.Position;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -79,14 +80,8 @@ public class Microcosme implements Runnable {
             e.printStackTrace();
         }
 
-        int i = 0;
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 2; y++) {
-
-                entityManager.addEntity(new Headnimal(i, handler, new Position(x * 200 + 50, y * 200 + 50)));
-                i++;
-            }
-        }
+        Headnimal headnimal = new Headnimal(0, handler, new Position((double) display.getWidth() / 2, (double) display.getHeight() / 2));
+        entityManager.addEntity(headnimal);
     }
 
     @Override
@@ -148,6 +143,8 @@ public class Microcosme implements Runnable {
         keyManager.update();
         mouseManager.update();
         entityManager.update();
+
+        if (keyManager.exit) System.exit(0);
     }
 
     private void render() {
@@ -212,6 +209,15 @@ public class Microcosme implements Runnable {
                             "Size> W:" + selectedEntity.getWidth() + " H:" + selectedEntity.getHeight()
                     )
             );
+            
+            if (selectedEntity instanceof Animal) {
+
+                Animal selectedAnimal = (Animal) selectedEntity;
+
+                leftLines.add(
+                        "Destination> " + (selectedAnimal.getDestination() != null ? "X:" + selectedAnimal.getDestination().getX() + " Y:" + selectedAnimal.getDestination().getY() : "NONE")
+                );
+            }
         }
 
         final Position mousePosition = mouseManager.getMousePosition();
@@ -245,6 +251,20 @@ public class Microcosme implements Runnable {
 
                 Rectangle hitBox = entity.getHitBox(0, 0);
                 graphics.drawRect(hitBox.x, hitBox.y, hitBox.width, hitBox.height);
+                if (entity instanceof Animal) {
+
+                    Animal animal = (Animal) entity;
+                    if (animal.getDestination() != null){
+
+                        graphics.setColor(Color.RED);
+                        graphics.drawLine(
+                                (int) animal.getPosition().getX(),
+                                (int) animal.getPosition().getY(),
+                                (int) animal.getDestination().getX(),
+                                (int) animal.getDestination().getY()
+                        );
+                    }
+                }
             });
 
 

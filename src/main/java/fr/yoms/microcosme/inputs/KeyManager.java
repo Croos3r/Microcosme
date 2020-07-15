@@ -13,10 +13,13 @@ public class KeyManager implements KeyListener {
     private final boolean[] cantPressKeys = new boolean[keys.length];
 
     public boolean debug;
+
     public boolean up;
     public boolean down;
     public boolean left;
     public boolean right;
+
+    public boolean exit;
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -54,6 +57,7 @@ public class KeyManager implements KeyListener {
         down    = keys[VK_S];
         left    = keys[VK_Q];
         right   = keys[VK_D];
+        exit    = keys[VK_ESCAPE] || keys[VK_END];
     }
 
     public boolean keyJustPressed(int keyCode){

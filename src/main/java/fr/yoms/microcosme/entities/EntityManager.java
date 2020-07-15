@@ -1,6 +1,7 @@
 package fr.yoms.microcosme.entities;
 
 import fr.yoms.microcosme.Handler;
+import fr.yoms.microcosme.entities.livings.animals.Animal;
 import fr.yoms.microcosme.inputs.MouseManager;
 import fr.yoms.microcosme.utils.Position;
 
@@ -14,7 +15,7 @@ public class EntityManager {
     private final Handler handler;
     private Entity selectedEntity = null;
     private final ArrayList<Entity> entities;
-    private final Comparator<Entity> renderSorter = (entity1, entity2) -> Float.compare(entity1.getPosition().getY(), entity2.getPosition().getY());
+    private final Comparator<Entity> renderSorter = Comparator.comparingDouble(entity -> entity.getPosition().getY());
 
     public EntityManager(Handler handler) {
 
@@ -43,6 +44,15 @@ public class EntityManager {
                 }
             });
             if (!aFound.get()) selectedEntity = null;
+        }
+        if (mouseManager.rightClickJustPressed()) {
+
+            if (selectedEntity != null && selectedEntity instanceof Animal) {
+
+                Animal selectedAnimal = (Animal) selectedEntity;
+                Position destination = new Position(mousePosition.getX(), mousePosition.getY());
+                selectedAnimal.setDestination(destination);
+            }
         }
     }
 

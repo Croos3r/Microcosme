@@ -6,31 +6,41 @@ import fr.yoms.microcosme.utils.Position;
 
 public abstract class Animal extends LivingEntity {
 
-    public static final float DEFAULT_STEP = 3.0f;
+    public static final double DEFAULT_STEP = 3;
 
-    protected float step;
+    protected double step;
+    protected Position destination = null;
 
-    public Animal(int id, Handler handler, Position position, int width, int height, double health, int age, float step) {
+    public Animal(int id, Handler handler, Position position, int width, int height, double health, int age, double step) {
 
         super(id, handler, position, width, height, health, age);
 
         this.step = step;
     }
 
-    public float getStep() {
+    public double getStep() {
 
         return step;
     }
-    public void setStep(float step) {
+    public void setStep(int step) {
 
         this.step = step;
     }
 
-    public void move(float xValue, float yValue) {
+    public void move(double xStep, double yStep) {
 
-        if (!checkEntityCollision(xValue, 0))
-            position.add(xValue, 0);
-        if (!checkEntityCollision(0, yValue))
-            position.add(0, yValue);
+        if (!checkEntityCollision(xStep, 0))
+            position.add(xStep, 0);
+        if (!checkEntityCollision(0, yStep))
+            position.add(0, yStep);
+    }
+
+    public Position getDestination() {
+
+        return destination;
+    }
+    public void setDestination(Position destination) {
+
+        this.destination = destination;
     }
 }

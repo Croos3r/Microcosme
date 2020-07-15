@@ -9,10 +9,10 @@ public class Position {
         return Math.sqrt(Math.pow(pos2.x - pos1.x, 2) + Math.pow(pos2.y + pos1.y, 2));
     }
 
-    private float x;
-    private float y;
+    private double x;
+    private double y;
 
-    public Position(float x, float y) {
+    public Position(double x, double y) {
 
         this.x = x;
         this.y = y;
@@ -24,23 +24,23 @@ public class Position {
         this.y = position.y;
     }
 
-    public float getX() {
+    public double getX() {
         return x;
     }
-    public Position setX(float x) {
+    public Position setX(double x) {
         this.x = x;
         return this;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
-    public Position setY(float y) {
+    public Position setY(double y) {
         this.y = y;
         return this;
     }
 
-    public Position add(float x, float y) {
+    public Position add(double x, double y) {
 
         this.x += x;
         this.y += y;
@@ -54,7 +54,7 @@ public class Position {
 
         return this;
     }
-    public Position substract(float x, float y) {
+    public Position substract(double x, double y) {
 
         this.x -= x;
         this.y -= y;
