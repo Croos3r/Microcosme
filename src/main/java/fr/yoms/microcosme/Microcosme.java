@@ -89,8 +89,7 @@ public class Microcosme implements Runnable {
         }
 
         entityManager.addEntity(new Headnimal(0, handler, Position.randomPosition(display.getWidth(), display.getHeight())));
-        entityManager.addEntity(new Headnimal(1, handler, Position.randomPosition(display.getWidth(), display.getHeight())));
-        entityManager.addEntity(new Rock(2, handler, Position.randomPosition(display.getWidth(), display.getHeight())));
+        for (int i = 0; i < 10; i++) entityManager.addEntity(new Rock(1 + i, handler, Position.randomPosition(display.getWidth(), display.getHeight())));
     }
 
     @Override
@@ -213,8 +212,12 @@ public class Microcosme implements Runnable {
 
                 Animal selectedAnimal = (Animal) selectedEntity;
 
-                leftLines.add(
-                        "Destination> " + (selectedAnimal.getDestination() != null ? "X:" + selectedAnimal.getDestination().getX() + " Y:" + selectedAnimal.getDestination().getY() : "NONE")
+                leftLines.addAll(
+                        Arrays.asList(
+                                "Destination> " + (selectedAnimal.getDestination() != null ? "X:" + selectedAnimal.getDestination().getX() + " Y:" + selectedAnimal.getDestination().getY() : "NONE"),
+                                "FOV> R:" + selectedAnimal.getFov().getRadius() + " A:" + selectedAnimal.getFov().getArea(),
+                                "Visibles> " + selectedAnimal.getVisibles().toString()
+                        )
                 );
             }
         }
@@ -253,9 +256,10 @@ public class Microcosme implements Runnable {
                 if (entity instanceof Animal) {
 
                     Animal animal = (Animal) entity;
+                    graphics.setColor(Color.BLUE);
+
                     if (animal.getDestination() != null){
 
-                        graphics.setColor(Color.BLUE);
                         graphics.drawLine(
                                 (int) animal.getPosition().getX(),
                                 (int) animal.getPosition().getY(),
@@ -263,8 +267,13 @@ public class Microcosme implements Runnable {
                                 (int) animal.getDestination().getY()
                         );
                     }
+                    graphics.drawOval((int) animal.getPosition().getX() - animal.getFov().getRadius(), (int) animal.getPosition().getY() - animal.getFov().getRadius(), animal.getFov().getRadius() * 2, animal.getFov().getRadius() * 2);
                 }
             });
+
+
+            Entity selectedEntity = entityManager.getSelectedEntity();
+            if (selectedEntity instanceof Animal) ((Animal) selectedEntity).getVisibles().forEach(entity -> entityManager.drawEntitySelector(entity, graphics, Color.GREEN));
 
 
             AtomicInteger i = new AtomicInteger(12);

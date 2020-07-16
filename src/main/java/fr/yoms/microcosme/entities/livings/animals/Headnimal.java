@@ -12,7 +12,7 @@ public class Headnimal extends Animal {
 
     public Headnimal(int id, Handler handler, Position position) {
 
-        super(id, handler, position, DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_HEALTH, DEFAULT_MAX_HEALTH, DEFAULT_AGE, DEFAULT_MAX_AGE, 5);
+        super(id, handler, position, DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_HEALTH, DEFAULT_MAX_HEALTH, DEFAULT_AGE, DEFAULT_MAX_AGE, 5, 100);
 
         hitBox.x = (int) position.getX() + width / 6 - width / 2;
         hitBox.y = (int) position.getY() + height / 6 - height / 2;
@@ -77,6 +77,14 @@ public class Headnimal extends Animal {
 
         hitBox.width = width - width / 3;
         hitBox.height = height - height / 3;
+
+        fov.setCenter(position);
+
+        handler.getGame().getEntityManager().getEntities().forEach(entity -> {
+
+            if (canSee(entity)) addVisibile(entity);
+            else removeVisible(entity.getId());
+        });
     }
 
     @Override

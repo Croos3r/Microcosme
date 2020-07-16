@@ -2,6 +2,7 @@ package fr.yoms.microcosme.entities;
 
 import fr.yoms.microcosme.Handler;
 import fr.yoms.microcosme.entities.livings.animals.Headnimal;
+import fr.yoms.microcosme.entities.tiles.Rock;
 import fr.yoms.microcosme.inputs.MouseManager;
 import fr.yoms.microcosme.utils.Position;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@SuppressWarnings("DuplicatedCode")
 public class EntityManager {
 
     private final Handler handler;
@@ -61,20 +63,17 @@ public class EntityManager {
         entities.sort(renderSorter);
         entities.forEach(entity -> entity.render(graphics));
 
-        drawEntitySelector(graphics);
+        if (selectedEntity != null) drawEntitySelector(selectedEntity, graphics, Color.WHITE);
     }
 
-    private void drawEntitySelector(Graphics graphics) {
+    public void drawEntitySelector(Entity entity, Graphics graphics, Color color) {
 
-        if (selectedEntity != null) {
+        graphics.setColor(color);
 
-            graphics.setColor(Color.white);
-            Graphics2D graphics2D = (Graphics2D) graphics;
-            Stroke defaultStroke = graphics2D.getStroke();
-            graphics2D.setStroke(new BasicStroke(2));
-            graphics.drawOval((int) selectedEntity.position.getX() - selectedEntity.getWidth() / 2, (int) selectedEntity.position.getY() - selectedEntity.getHeight() / 2, selectedEntity.width, selectedEntity.height);
-            graphics2D.setStroke(defaultStroke);
-        }
+        if (entity instanceof Headnimal)
+            graphics.drawOval((int) entity.position.getX() - entity.getWidth() / 2 - 3, (int) entity.position.getY() - entity.getHeight() / 2 - 3, entity.width + 6, entity.height + 6);
+        else if (entity instanceof Rock)
+            graphics.drawRect((int) entity.position.getX() - entity.getWidth() / 2 - 3, (int) entity.position.getY() - entity.getHeight() / 2 - 3, entity.width + 6, entity.height + 6);
     }
 
     public Handler getHandler() {
