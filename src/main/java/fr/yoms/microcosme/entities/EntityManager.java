@@ -52,7 +52,6 @@ public class EntityManager {
                 Headnimal selectedAnimal = (Headnimal) selectedEntity;
                 Position destination = new Position(mousePosition.getX(), mousePosition.getY());
                 selectedAnimal.setDestination(destination);
-                selectedAnimal.setLastMoveTime(System.currentTimeMillis());
             }
         }
     }

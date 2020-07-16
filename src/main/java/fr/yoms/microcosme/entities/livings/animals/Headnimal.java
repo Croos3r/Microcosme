@@ -63,12 +63,12 @@ public class Headnimal extends Animal {
                 double yStep = dirY * step;
 
                 move(xStep, yStep);
+                lastMoveTime = System.currentTimeMillis();
 
             } else {
 
                 position = destination;
                 destination = null;
-                lastMoveTime = System.currentTimeMillis();
             }
         }
 
