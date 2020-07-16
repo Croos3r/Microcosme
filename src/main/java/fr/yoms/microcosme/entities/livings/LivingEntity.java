@@ -14,12 +14,14 @@ public abstract class LivingEntity extends Entity {
     protected int age;
     protected int maxAge;
 
-    public LivingEntity(int id, Handler handler, Position position, int width, int height, double health, int age) {
+    public LivingEntity(int id, Handler handler, Position position, int width, int height, double health, double maxHealth, int age, int maxAge) {
 
         super(id, handler, position, width, height);
 
         this.health = health;
+        this.maxHealth = maxHealth;
         this.age = age;
+        this.maxAge = maxAge;
     }
 
     public double getHealth() {
