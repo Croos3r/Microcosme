@@ -12,13 +12,13 @@ public class Headnimal extends Animal {
 
     public Headnimal(int id, Handler handler, Position position) {
 
-        super(id, handler, position, DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_HEALTH, DEFAULT_AGE, 5);
+        super(id, handler, position, DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_HEALTH, DEFAULT_MAX_HEALTH, DEFAULT_AGE, DEFAULT_MAX_AGE, 5);
 
-        hitBox.x = (int) (position.getX() + width / 2);
-        hitBox.y = (int) (position.getY() + height / 2);
+        hitBox.x = (int) position.getX() + width / 6 - width / 2;
+        hitBox.y = (int) position.getY() + height / 6 - height / 2;
 
-        hitBox.width = width / 2;
-        hitBox.height = height / 2;
+        hitBox.width = width - width / 3;
+        hitBox.height = height - height / 3;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class Headnimal extends Animal {
 
         Entity selectedEntity = handler.getGame().getEntityManager().getSelectedEntity();
         if (destination == null && selectedEntity != this && now >= lastMoveTime + 500)
-            destination = Position.randomPosition(handler.getDisplay().getWidth(), handler.getDisplay().getWidth());
+            destination = Position.randomPosition(handler.getDisplay().getWidth(), handler.getDisplay().getHeight());
         if (selectedEntity != null && selectedEntity.equals(this) && this.destination == null) {
 
             if (handler.getKeyManager().up)
