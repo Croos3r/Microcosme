@@ -6,7 +6,7 @@ import fr.yoms.microcosme.entities.livings.animals.Animal;
 import fr.yoms.microcosme.entities.livings.animals.Headnimal;
 import fr.yoms.microcosme.entities.tiles.Rock;
 import fr.yoms.microcosme.graphics.Display;
-import fr.yoms.microcosme.graphics.Ressources;
+import fr.yoms.microcosme.graphics.Resources;
 import fr.yoms.microcosme.inputs.KeyManager;
 import fr.yoms.microcosme.inputs.MouseManager;
 import fr.yoms.microcosme.utils.Position;
@@ -35,7 +35,7 @@ public class Microcosme implements Runnable {
     private final MouseManager mouseManager;
     private final KeyManager keyManager;
     private final EntityManager entityManager;
-    private final Ressources ressources;
+    private final Resources resources;
 
     private int TPS;
     private int FPS;
@@ -50,7 +50,7 @@ public class Microcosme implements Runnable {
 
         handler = new Handler(this);
         entityManager = new EntityManager(handler);
-        ressources = new Ressources();
+        resources = new Resources();
     }
     public Microcosme(String title, int width, int height, int maxTPS) {
 
@@ -63,19 +63,19 @@ public class Microcosme implements Runnable {
 
         handler = new Handler(this);
         entityManager = new EntityManager(handler);
-        ressources = new Ressources();
+        resources = new Resources();
     }
 
     private void init() {
 
-        ressources.init();
+        resources.init();
 
         display.getFrame().addMouseListener(mouseManager);
         display.getCanvas().addMouseListener(mouseManager);
         display.getFrame().addMouseMotionListener(mouseManager);
         display.getCanvas().addMouseMotionListener(mouseManager);
         display.getFrame().addKeyListener(keyManager);
-        display.getFrame().setIconImage(ressources.head);
+        display.getFrame().setIconImage(resources.head);
 
         try {
 
@@ -152,7 +152,7 @@ public class Microcosme implements Runnable {
 
         if (!preRender()) return;
 
-        graphics.drawImage(ressources.background, 0, 0, display.getWidth(), display.getHeight(), null);
+        graphics.drawImage(resources.background, 0, 0, display.getWidth(), display.getHeight(), null);
         entityManager.render(graphics);
         drawDebug();
 
@@ -327,9 +327,9 @@ public class Microcosme implements Runnable {
 
         return entityManager;
     }
-    public Ressources getRessources() {
+    public Resources getResources() {
 
-        return ressources;
+        return resources;
     }
     public int getTPS() {
 

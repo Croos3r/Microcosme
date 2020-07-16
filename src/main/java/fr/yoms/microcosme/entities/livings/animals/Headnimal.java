@@ -82,7 +82,7 @@ public class Headnimal extends Animal {
     @Override
     public void render(Graphics graphics) {
 
-        graphics.drawImage(handler.getGame().getRessources().head, (int) position.getX() - width / 2, (int) (position.getY() - height / 2), width, height, null);
+        graphics.drawImage(handler.getGame().getResources().head, (int) position.getX() - width / 2, (int) (position.getY() - height / 2), width, height, null);
     }
 
     public void setLastMoveTime(long lastMoveTime) {
