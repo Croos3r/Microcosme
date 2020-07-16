@@ -88,8 +88,9 @@ public class Microcosme implements Runnable {
             e.printStackTrace();
         }
 
-        Headnimal headnimal = new Headnimal(0, handler, new Position((double) display.getWidth() / 2, (double) display.getHeight() / 2));
-        entityManager.addEntity(headnimal);
+        entityManager.addEntity(new Headnimal(0, handler, Position.randomPosition(display.getWidth(), display.getHeight())));
+        entityManager.addEntity(new Headnimal(1, handler, Position.randomPosition(display.getWidth(), display.getHeight())));
+        entityManager.addEntity(new Rock(2, handler, Position.randomPosition(display.getWidth(), display.getHeight())));
     }
 
     @Override
