@@ -99,11 +99,11 @@ public class Microcosme implements Runnable {
         double timePerUpdate = (float) 1000000000 / maxTPS;
         double deltaTPS = 0;
         long now;
-        long lastUpdateTime = System.nanoTime();
+        long lastTime = System.nanoTime();
         long lastRenderTime = System.nanoTime();
 
         // Debug
-        long timerTPS = 0;
+        long timer = 0;
         long timerFPS = 0;
         int ticks = 0;
         int frames = 0;
@@ -112,11 +112,10 @@ public class Microcosme implements Runnable {
         while (running) {
 
             now = System.nanoTime();
-            deltaTPS += (now - lastUpdateTime) / timePerUpdate;
-            timerTPS += now - lastUpdateTime;
-            timerFPS += now - lastRenderTime;
+            deltaTPS += (now - lastTime) / timePerUpdate;
+            timer += now - lastTime;
 
-            lastUpdateTime = lastRenderTime = now;
+            lastTime = now;
 
             if (deltaTPS >= 1) {
 
@@ -128,17 +127,21 @@ public class Microcosme implements Runnable {
             render();
             frames++;
 
-            if (timerTPS >= 1000000000) {
+            if (timer >= 1000000000) {
+
+                for (int i = 0; i < 500; i++) System.out.println("\n");
 
                 TPS = ticks;
                 ticks = 0;
-                timerTPS = 0;
-            }
-            if (timerFPS >= 1000000000) {
+                System.out.println("TPS: " + TPS);
 
                 FPS = frames;
                 frames = 0;
-                timerFPS = 0;
+                System.out.println("FPS: " + FPS);
+
+                System.out.println("Entities: " + entityManager.getEntities().size());
+
+                timer = 0;
             }
         }
 
@@ -196,7 +199,7 @@ public class Microcosme implements Runnable {
                     Color.WHITE,
                     "TPS> " + TPS + "/" + maxTPS,
                     "FPS> " + FPS,
-                    "Entities> " + entityManager.getEntities().toString(),
+                    "Entities> " + entityManager.getEntities().size(),
                     "Keys> " +
                             (keyManager.up || keyManager.down || keyManager.left || keyManager.right ? "" : "NONE") +
                             (keyManager.up ? "UP " : "") + (keyManager.down ? "DOWN " : "") +

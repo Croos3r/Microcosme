@@ -5,7 +5,6 @@ import fr.yoms.microcosme.entities.Entity;
 import fr.yoms.microcosme.utils.Position;
 
 import java.awt.*;
-import java.util.Random;
 
 public class Headnimal extends Animal {
 
@@ -29,7 +28,7 @@ public class Headnimal extends Animal {
 
         Entity selectedEntity = handler.getGame().getEntityManager().getSelectedEntity();
         if (destination == null && selectedEntity != this && now >= lastMoveTime + 500)
-            destination = chooseRandomDestination();
+            destination = Position.randomPosition(handler.getDisplay().getWidth(), handler.getDisplay().getWidth());
         if (selectedEntity != null && selectedEntity.equals(this) && this.destination == null) {
 
             if (handler.getKeyManager().up)
@@ -40,6 +39,8 @@ public class Headnimal extends Animal {
                 move(-step, 0);
             if (handler.getKeyManager().right)
                 move(step, 0);
+
+            lastMoveTime = now;
         }
         else if (destination != null) {
 
@@ -84,8 +85,8 @@ public class Headnimal extends Animal {
         graphics.drawImage(handler.getGame().getRessources().head, (int) position.getX() - width / 2, (int) (position.getY() - height / 2), width, height, null);
     }
 
-    public Position chooseRandomDestination() {
+    public void setLastMoveTime(long lastMoveTime) {
 
-        return new Position(new Random().nextInt(handler.getDisplay().getWidth()), new Random().nextInt(handler.getDisplay().getHeight()));
+        this.lastMoveTime = lastMoveTime;
     }
 }

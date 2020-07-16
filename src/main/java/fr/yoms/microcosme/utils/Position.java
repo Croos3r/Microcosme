@@ -2,11 +2,18 @@ package fr.yoms.microcosme.utils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Random;
+
 public class Position {
 
     public static double distanceBetween(Position pos1, Position pos2) {
 
         return Math.sqrt(Math.pow(pos2.x - pos1.x, 2) + Math.pow(pos2.y + pos1.y, 2));
+    }
+
+    public static Position randomPosition(int xBound, int yBound) {
+
+        return new Position(new Random().nextInt(xBound), new Random().nextInt(yBound));
     }
 
     private double x;

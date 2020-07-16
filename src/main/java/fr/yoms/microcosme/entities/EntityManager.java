@@ -1,7 +1,7 @@
 package fr.yoms.microcosme.entities;
 
 import fr.yoms.microcosme.Handler;
-import fr.yoms.microcosme.entities.livings.animals.Animal;
+import fr.yoms.microcosme.entities.livings.animals.Headnimal;
 import fr.yoms.microcosme.inputs.MouseManager;
 import fr.yoms.microcosme.utils.Position;
 
@@ -47,11 +47,12 @@ public class EntityManager {
         }
         if (mouseManager.rightClickJustPressed()) {
 
-            if (selectedEntity != null && selectedEntity instanceof Animal) {
+            if (selectedEntity != null && selectedEntity instanceof Headnimal) {
 
-                Animal selectedAnimal = (Animal) selectedEntity;
+                Headnimal selectedAnimal = (Headnimal) selectedEntity;
                 Position destination = new Position(mousePosition.getX(), mousePosition.getY());
                 selectedAnimal.setDestination(destination);
+                selectedAnimal.setLastMoveTime(System.currentTimeMillis());
             }
         }
     }
@@ -81,11 +82,11 @@ public class EntityManager {
 
         return handler;
     }
+
     public ArrayList<Entity> getEntities() {
 
         return entities;
     }
-
     public void addEntity(Entity entity) {
 
         entities.add(entity);
