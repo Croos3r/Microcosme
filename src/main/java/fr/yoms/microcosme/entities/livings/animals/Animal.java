@@ -29,10 +29,9 @@ public abstract class Animal extends LivingEntity {
 
     public void move(double xStep, double yStep) {
 
-        if (!checkEntityCollision(xStep, 0))
-            position.add(xStep, 0);
-        if (!checkEntityCollision(0, yStep))
-            position.add(0, yStep);
+        if (!checkEntityCollision(xStep, yStep))
+            position.add(xStep, yStep);
+        else destination = null;
     }
 
     public Position getDestination() {
