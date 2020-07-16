@@ -4,6 +4,7 @@ import fr.yoms.microcosme.entities.Entity;
 import fr.yoms.microcosme.entities.EntityManager;
 import fr.yoms.microcosme.entities.livings.animals.Animal;
 import fr.yoms.microcosme.entities.livings.animals.Headnimal;
+import fr.yoms.microcosme.entities.tiles.Rock;
 import fr.yoms.microcosme.graphics.Display;
 import fr.yoms.microcosme.graphics.Ressources;
 import fr.yoms.microcosme.inputs.KeyManager;
@@ -100,11 +101,9 @@ public class Microcosme implements Runnable {
         double deltaTPS = 0;
         long now;
         long lastTime = System.nanoTime();
-        long lastRenderTime = System.nanoTime();
 
         // Debug
         long timer = 0;
-        long timerFPS = 0;
         int ticks = 0;
         int frames = 0;
 
@@ -129,18 +128,10 @@ public class Microcosme implements Runnable {
 
             if (timer >= 1000000000) {
 
-                for (int i = 0; i < 500; i++) System.out.println("\n");
-
                 TPS = ticks;
                 ticks = 0;
-                System.out.println("TPS: " + TPS);
-
                 FPS = frames;
                 frames = 0;
-                System.out.println("FPS: " + FPS);
-
-                System.out.println("Entities: " + entityManager.getEntities().size());
-
                 timer = 0;
             }
         }
@@ -162,8 +153,6 @@ public class Microcosme implements Runnable {
         if (!preRender()) return;
 
         graphics.drawImage(ressources.background, 0, 0, display.getWidth(), display.getHeight(), null);
-
-
         entityManager.render(graphics);
         drawDebug();
 
