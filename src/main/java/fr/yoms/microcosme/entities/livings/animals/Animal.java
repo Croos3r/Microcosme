@@ -11,9 +11,9 @@ public abstract class Animal extends LivingEntity {
     protected double step;
     protected Position destination = null;
 
-    public Animal(int id, Handler handler, Position position, int width, int height, double health, int age, double step) {
+    public Animal(int id, Handler handler, Position position, int width, int height, double health, double maxHealth, int age, int maxAge, double step) {
 
-        super(id, handler, position, width, height, health, age);
+        super(id, handler, position, width, height, health, maxHealth, age, maxAge);
 
         this.step = step;
     }
