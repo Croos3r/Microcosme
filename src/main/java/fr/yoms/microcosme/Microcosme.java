@@ -267,7 +267,7 @@ public class Microcosme implements Runnable {
                                 (int) animal.getDestination().getY()
                         );
                     }
-                    graphics.drawOval((int) animal.getPosition().getX() - animal.getFov().getRadius(), (int) animal.getPosition().getY() - animal.getFov().getRadius(), animal.getFov().getRadius() * 2, animal.getFov().getRadius() * 2);
+                    graphics.drawOval((int) (animal.getPosition().getX() - animal.getFov().getRadius()), (int) (animal.getPosition().getY() - animal.getFov().getRadius()), (int) (animal.getFov().getRadius() * 2), (int) (animal.getFov().getRadius() * 2));
                 }
             });
 
