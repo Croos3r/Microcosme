@@ -89,7 +89,7 @@ public class Microcosme implements Runnable {
         }
 
         entityManager.addEntity(new Headnimal(0, handler, Position.randomPosition(display.getWidth(), display.getHeight())));
-        for (int i = 0; i < 10; i++) entityManager.addEntity(new Rock(1 + i, handler, Position.randomPosition(display.getWidth(), display.getHeight())));
+        entityManager.addEntity(new Rock(1, handler, Position.randomPosition(display.getWidth(), display.getHeight())));
     }
 
     @Override
@@ -231,7 +231,7 @@ public class Microcosme implements Runnable {
 
         for (Entity entity: entityManager.getEntities()) {
 
-            if (entity.getHitBox(0, 0).contains(mousePosition.getX(), mousePosition.getY())) {
+            if (entity.getHitBox().contains(mousePosition)) {
 
                 mouseLines.add("Entity : " + entity.toString() + (entityManager.getSelectedEntity() == entity ? " SEL" : ""));
                 break;
@@ -251,8 +251,8 @@ public class Microcosme implements Runnable {
             graphics.setColor(Color.blue);
             entityManager.getEntities().forEach(entity -> {
 
-                Rectangle hitBox = entity.getHitBox(0, 0);
-                graphics.drawRect(hitBox.x, hitBox.y, hitBox.width, hitBox.height);
+                entity.drawHitBox(graphics);
+
                 if (entity instanceof Animal) {
 
                     Animal animal = (Animal) entity;
@@ -273,7 +273,7 @@ public class Microcosme implements Runnable {
 
 
             Entity selectedEntity = entityManager.getSelectedEntity();
-            if (selectedEntity instanceof Animal) ((Animal) selectedEntity).getVisibles().forEach(entity -> entityManager.drawEntitySelector(entity, graphics, Color.GREEN));
+            if (selectedEntity instanceof Animal) ((Animal) selectedEntity).getVisibles().forEach(entity -> entity.drawSelector(graphics, Color.GREEN));
 
 
             AtomicInteger i = new AtomicInteger(12);

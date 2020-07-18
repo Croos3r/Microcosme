@@ -20,6 +20,7 @@ public class CircularHitBox extends HitBox {
 
     @Override
     public boolean intersects(Object o) {
+
         if (o instanceof HitBox) {
 
             if (o instanceof RectangularHitBox) {
@@ -42,6 +43,7 @@ public class CircularHitBox extends HitBox {
 
     @Override
     public boolean contains(Position position) {
+
         return new Circle(center, (int) radius).isPositionInCircle(position);
     }
 
@@ -57,5 +59,13 @@ public class CircularHitBox extends HitBox {
     public double getRadius() {
 
         return radius;
+    }
+
+    @Override
+    public String toString() {
+        return "CircularHitBox{" +
+                "radius=" + radius +
+                ", center=" + center +
+                '}';
     }
 }

@@ -3,7 +3,8 @@ package fr.yoms.microcosme.entities.livings.animals;
 import fr.yoms.microcosme.Handler;
 import fr.yoms.microcosme.entities.Entity;
 import fr.yoms.microcosme.entities.livings.LivingEntity;
-import fr.yoms.microcosme.utils.Circle;
+import fr.yoms.microcosme.hitboxes.HitBox;
+import fr.yoms.microcosme.hitboxes.circular.CircularHitBox;
 import fr.yoms.microcosme.utils.Position;
 
 import java.util.ArrayList;
@@ -16,15 +17,15 @@ public abstract class Animal extends LivingEntity {
 
     protected double step;
     protected Position destination = null;
-    protected final Circle fov;
+    protected final CircularHitBox fov;
     protected final List<Entity> visibles = new ArrayList<>();
 
-    public Animal(int id, Handler handler, Position position, int width, int height, double health, double maxHealth, int age, int maxAge, double step, int fovRadius) {
+    public Animal(int id, Handler handler, Position position, int width, int height, double health, double maxHealth, int age, int maxAge, double step, HitBox hitBox, int fovRadius) {
 
-        super(id, handler, position, width, height, health, maxHealth, age, maxAge);
+        super(id, handler, position, width, height, health, maxHealth, age, maxAge, hitBox);
 
         this.step = step;
-        this.fov = new Circle(position, fovRadius);
+        this.fov = new CircularHitBox(position, fovRadius);
     }
 
     public double getStep() {
@@ -45,14 +46,14 @@ public abstract class Animal extends LivingEntity {
         this.destination = destination;
     }
 
-    public Circle getFov() {
+    public CircularHitBox getFov() {
 
         return fov;
     }
     public boolean canSee(Entity entity) {
 
         if (entity.equals(this)) return false;
-        return fov.intersect(entity.getHitBox(0, 0));
+        return fov.intersects(entity.getHitBox());
     }
 
     public List<Entity> getVisibles() {

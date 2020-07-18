@@ -2,6 +2,7 @@ package fr.yoms.microcosme.entities.livings.animals;
 
 import fr.yoms.microcosme.Handler;
 import fr.yoms.microcosme.entities.Entity;
+import fr.yoms.microcosme.hitboxes.circular.CircularHitBox;
 import fr.yoms.microcosme.utils.Position;
 
 import java.awt.*;
@@ -12,13 +13,19 @@ public class Headnimal extends Animal {
 
     public Headnimal(int id, Handler handler, Position position) {
 
-        super(id, handler, position, DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_HEALTH, DEFAULT_MAX_HEALTH, DEFAULT_AGE, DEFAULT_MAX_AGE, 5, 100);
-
-        hitBox.x = (int) position.getX() + width / 6 - width / 2;
-        hitBox.y = (int) position.getY() + height / 6 - height / 2;
-
-        hitBox.width = width - width / 3;
-        hitBox.height = height - height / 3;
+        super(
+                id,
+                handler,
+                position,
+                DEFAULT_WIDTH,
+                DEFAULT_HEIGHT,
+                DEFAULT_HEALTH,
+                DEFAULT_MAX_HEALTH,
+                DEFAULT_AGE,
+                DEFAULT_MAX_AGE,
+                5,
+                new CircularHitBox(position, (double) (DEFAULT_WIDTH + DEFAULT_HEIGHT) / 4),
+                100);
     }
 
     @Override
@@ -72,25 +79,36 @@ public class Headnimal extends Animal {
             }
         }
 
-        hitBox.x = (int) position.getX() + width / 6 - width / 2;
-        hitBox.y = (int) position.getY() + height / 6 - height / 2;
-
-        hitBox.width = width - width / 3;
-        hitBox.height = height - height / 3;
-
-        fov.setCenter(position);
-
         handler.getGame().getEntityManager().getEntities().forEach(entity -> {
 
             if (canSee(entity)) addVisibile(entity);
             else removeVisible(entity.getId());
         });
+
+        hitBox.update(position);
+        fov.update(position);
     }
 
     @Override
     public void render(Graphics graphics) {
 
         graphics.drawImage(handler.getGame().getResources().head, (int) position.getX() - width / 2, (int) (position.getY() - height / 2), width, height, null);
+    }
+
+    @Override
+    public void drawHitBox(Graphics graphics) {
+
+        Position center = hitBox.getCenter();
+        double radius = ((CircularHitBox) hitBox).getRadius();
+
+        graphics.drawOval((int) (center.getX() - radius), (int) (center.getY() - radius), (int) radius * 2, (int) radius * 2);
+    }
+
+    @Override
+    public void drawSelector(Graphics graphics, Color color) {
+
+        graphics.setColor(color);
+        graphics.drawOval((int) this.position.getX() - this.getWidth() / 2 - 3, (int) this.position.getY() - this.getHeight() / 2 - 3, this.width + 6, this.height + 6);
     }
 
     public void setLastMoveTime(long lastMoveTime) {

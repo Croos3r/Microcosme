@@ -56,9 +56,9 @@ public class RectangularHitBox extends HitBox {
     @Override
     public boolean contains(Position position) {
         return
-                origin.getX() >= position.getX() && position.getX() >= end.getX()
+                origin.getX() <= position.getX() && position.getX() <= end.getX()
                         &&
-                origin.getY() >= position.getY() && position.getY() >= end.getY();
+                origin.getY() <= position.getY() && position.getY() <= end.getY();
     }
 
     @Override
@@ -96,5 +96,16 @@ public class RectangularHitBox extends HitBox {
     public Position getEnd() {
 
         return end;
+    }
+
+    @Override
+    public String toString() {
+        return "RectangularHitBox{" +
+                "width=" + width +
+                ", height=" + height +
+                ", origin=" + origin +
+                ", end=" + end +
+                ", center=" + center +
+                '}';
     }
 }

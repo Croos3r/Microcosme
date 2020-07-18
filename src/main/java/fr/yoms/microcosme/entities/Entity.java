@@ -1,6 +1,7 @@
 package fr.yoms.microcosme.entities;
 
 import fr.yoms.microcosme.Handler;
+import fr.yoms.microcosme.hitboxes.HitBox;
 import fr.yoms.microcosme.utils.Position;
 
 import java.awt.*;
@@ -15,17 +16,16 @@ public abstract class Entity {
     protected Position position;
     protected int width;
     protected int height;
-    protected Rectangle hitBox;
+    protected final HitBox hitBox;
 
-    public Entity(int id, Handler handler, Position position, int width, int height) {
+    public Entity(int id, Handler handler, Position position, int width, int height, HitBox hitBox) {
 
         this.id = id;
         this.handler = handler;
         this.position = position;
         this.width = width;
         this.height = height;
-
-        hitBox = new Rectangle(0, 0, width, height);
+        this.hitBox = hitBox;
     }
 
     public int getId() {
@@ -63,32 +63,36 @@ public abstract class Entity {
 
     public boolean checkEntityCollision(double xOffset, double yOffset) {
 
+        HitBox hitBox = this.hitBox;
+        hitBox.setCenter(new Position(hitBox.getCenter().getX() + xOffset, hitBox.getCenter().getY() + yOffset));
+
         for (Entity entity : handler.getGame().getEntityManager().getEntities()) {
             if (entity.equals(this)) continue;
-            if (entity.getHitBox(0, 0).intersects(getHitBox(xOffset, yOffset)))
+            if (hitBox.intersects(entity.getHitBox()))
                 return true;
         }
         return false;
     }
 
-    public Rectangle getHitBox(double xOffset, double yOffset) {
+    public HitBox getHitBox() {
 
-        return new Rectangle((int) (hitBox.x + xOffset), (int) (hitBox.y + yOffset), hitBox.width, hitBox.height);
-    }
-    public void setHitBox(Rectangle hitBox) {
-
-        this.hitBox = hitBox;
+        return hitBox;
     }
 
     public abstract void update();
     public abstract void render(Graphics graphics);
 
+    public abstract void drawHitBox(Graphics graphics);
+    public abstract void drawSelector(Graphics graphics, Color color);
+
     @Override
     public String toString() {
         return "Entity{" +
                 "id=" + id +
-                ", x=" + position.getX() +
-                ", y=" + position.getY() +
+                ", position=" + position +
+                ", width=" + width +
+                ", height=" + height +
+                ", hitBox=" + hitBox +
                 '}';
     }
 }

@@ -2,7 +2,6 @@ package fr.yoms.microcosme.entities;
 
 import fr.yoms.microcosme.Handler;
 import fr.yoms.microcosme.entities.livings.animals.Headnimal;
-import fr.yoms.microcosme.entities.tiles.Rock;
 import fr.yoms.microcosme.inputs.MouseManager;
 import fr.yoms.microcosme.utils.Position;
 
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@SuppressWarnings("DuplicatedCode")
 public class EntityManager {
 
     private final Handler handler;
@@ -38,7 +36,7 @@ public class EntityManager {
 
             entities.forEach(entity -> {
 
-                if (entity.getHitBox(0, 0).contains(mousePosition.getX(), mousePosition.getY())) {
+                if (entity.getHitBox().contains(mousePosition)) {
 
                     if (selectedEntity == entity) selectedEntity = null;
                     else selectedEntity = entity;
@@ -63,17 +61,7 @@ public class EntityManager {
         entities.sort(renderSorter);
         entities.forEach(entity -> entity.render(graphics));
 
-        if (selectedEntity != null) drawEntitySelector(selectedEntity, graphics, Color.WHITE);
-    }
-
-    public void drawEntitySelector(Entity entity, Graphics graphics, Color color) {
-
-        graphics.setColor(color);
-
-        if (entity instanceof Headnimal)
-            graphics.drawOval((int) entity.position.getX() - entity.getWidth() / 2 - 3, (int) entity.position.getY() - entity.getHeight() / 2 - 3, entity.width + 6, entity.height + 6);
-        else if (entity instanceof Rock)
-            graphics.drawRect((int) entity.position.getX() - entity.getWidth() / 2 - 3, (int) entity.position.getY() - entity.getHeight() / 2 - 3, entity.width + 6, entity.height + 6);
+        if (selectedEntity != null) selectedEntity.drawSelector(graphics, Color.WHITE);
     }
 
     public Handler getHandler() {
