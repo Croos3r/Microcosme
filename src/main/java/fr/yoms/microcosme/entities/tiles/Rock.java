@@ -24,7 +24,7 @@ public class Rock extends TileEntity {
         double width = ((RectangularHitBox) hitBox).getWidth();
         double height = ((RectangularHitBox) hitBox).getHeight();
 
-        graphics.drawRect((int) origin.getX() - 3, (int) origin.getY() - 3, (int) width + 6, (int) height + 6);
+        graphics.drawRect((int) origin.getX(), (int) origin.getY(), (int) width, (int) height);
     }
 
     @Override
