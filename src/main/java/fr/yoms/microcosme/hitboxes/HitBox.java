@@ -11,13 +11,30 @@ public abstract class HitBox {
         this.center = center;
     }
 
-    public abstract boolean intersects(Object o);
-    public abstract boolean contains(Position position);
-
+    /**
+     * Update whole HitBox by setting it's center
+     * @param center New center position
+     */
     public void update(Position center) {
 
         this.center = center;
     }
+
+    /**
+     * Check if object intersects with this HitBox
+     * @param o Object to check
+     * @return false if object not intersects or if object is unknown, else return true
+     */
+    public abstract boolean intersects(Object o);
+
+    /**
+     * Check if position is contained in this HitBox
+     * @param position Position to check
+     * @return true if position is contained in this HitBox, else return false
+     */
+    public abstract boolean contains(Position position);
+
+    // Getters and setters
 
     public abstract double getPerimeter();
     public abstract double getArea();

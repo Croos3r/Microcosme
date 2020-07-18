@@ -12,6 +12,7 @@ public abstract class TileEntity extends Entity {
         super(id, handler, position, width, height, hitBox);
     }
 
+    // Currently no updates to perform
     @Override
     public void update() {}
 }

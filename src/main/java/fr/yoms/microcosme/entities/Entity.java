@@ -8,6 +8,7 @@ import java.awt.*;
 
 public abstract class Entity {
 
+    // Default constants
     public static final int DEFAULT_WIDTH = 64, DEFAULT_HEIGHT = 64;
     public static final Position DEFAULT_POSITION = new Position(0, 0);
 
@@ -28,6 +29,46 @@ public abstract class Entity {
         this.hitBox = hitBox;
     }
 
+    /**
+     * Check collisions with other entities
+     * @param xOffset x distance added to position checked
+     * @param yOffset y distance added to position checked
+     * @return true if entity's hitBox intersects with another, else return false
+     * @see HitBox#intersects
+     */
+    public boolean checkEntityCollision(double xOffset, double yOffset) {
+
+        HitBox hitBox = this.hitBox;
+        hitBox.setCenter(new Position(hitBox.getCenter().getX() + xOffset, hitBox.getCenter().getY() + yOffset));
+
+        for (Entity entity : handler.getGame().getEntityManager().getEntities()) {
+            if (entity.equals(this)) continue;
+            if (hitBox.intersects(entity.getHitBox()))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Draw debug entity's hit box
+     * @param graphics JFrame Graphics objet
+     */
+    public abstract void drawHitBox(Graphics graphics);
+
+
+    /**
+     * Draw entity-shaped selector
+     * @param graphics JFrame Graphics objet
+     * @param color selector Color
+     */
+    public abstract void drawSelector(Graphics graphics, Color color);
+
+
+    // Update and render methods
+    public abstract void update();
+    public abstract void render(Graphics graphics);
+
+    // Getters and setters
     public int getId() {
         return id;
     }
@@ -61,29 +102,10 @@ public abstract class Entity {
         this.height = height;
     }
 
-    public boolean checkEntityCollision(double xOffset, double yOffset) {
-
-        HitBox hitBox = this.hitBox;
-        hitBox.setCenter(new Position(hitBox.getCenter().getX() + xOffset, hitBox.getCenter().getY() + yOffset));
-
-        for (Entity entity : handler.getGame().getEntityManager().getEntities()) {
-            if (entity.equals(this)) continue;
-            if (hitBox.intersects(entity.getHitBox()))
-                return true;
-        }
-        return false;
-    }
-
     public HitBox getHitBox() {
 
         return hitBox;
     }
-
-    public abstract void update();
-    public abstract void render(Graphics graphics);
-
-    public abstract void drawHitBox(Graphics graphics);
-    public abstract void drawSelector(Graphics graphics, Color color);
 
     @Override
     public String toString() {

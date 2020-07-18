@@ -2,7 +2,9 @@ package fr.yoms.microcosme.inputs;
 
 import fr.yoms.microcosme.utils.Position;
 
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 public class MouseManager implements MouseListener, MouseMotionListener{
 
@@ -35,6 +37,7 @@ public class MouseManager implements MouseListener, MouseMotionListener{
 
         if (cantPressLeftClick && !leftClick)
             cantPressLeftClick = false;
+
         else if (justPressedLeftClick) {
 
             cantPressLeftClick = true;
@@ -45,6 +48,7 @@ public class MouseManager implements MouseListener, MouseMotionListener{
         
         if (cantPressRightClick && !rightClick)
             cantPressRightClick = false;
+
         else if (justPressedRightClick) {
 
             cantPressRightClick = true;
@@ -72,6 +76,7 @@ public class MouseManager implements MouseListener, MouseMotionListener{
         return mousePosition;
     }
 
+    // Ignored events
     @Override
     public void mouseDragged(MouseEvent e) {}
 

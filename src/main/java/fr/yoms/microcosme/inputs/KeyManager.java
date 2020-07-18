@@ -33,15 +33,14 @@ public class KeyManager implements KeyListener {
         if (e.getKeyCode() >= 0 && e.getKeyCode() < keys.length) keys[e.getKeyCode()] = false;
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {}
-
     public void update() {
 
 
         for (int i = 0; i < keys.length; i++) {
+
             if (cantPressKeys[i] && !keys[i])
                 cantPressKeys[i] = false;
+
             else if (justPressedKeys[i]) {
 
                 cantPressKeys[i] = true;
@@ -71,4 +70,8 @@ public class KeyManager implements KeyListener {
         return keys[keyCode];
         else return false;
     }
+
+    // Ignored event
+    @Override
+    public void keyTyped(KeyEvent e) {}
 }

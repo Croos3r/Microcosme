@@ -7,6 +7,7 @@ import fr.yoms.microcosme.utils.Position;
 
 public abstract class LivingEntity extends Entity {
 
+    // Default constants
     public static final double DEFAULT_HEALTH = 10, DEFAULT_MAX_HEALTH = 20;
     public static final int DEFAULT_AGE = 0, DEFAULT_MAX_AGE = 10;
 
@@ -25,6 +26,7 @@ public abstract class LivingEntity extends Entity {
         this.maxAge = maxAge;
     }
 
+    // Getters and setters
     public double getHealth() {
 
         return health;

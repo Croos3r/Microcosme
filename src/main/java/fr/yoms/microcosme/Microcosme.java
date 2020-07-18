@@ -66,6 +66,9 @@ public class Microcosme implements Runnable {
         resources = new Resources();
     }
 
+    /**
+     * Init the game
+     */
     private void init() {
 
         resources.init();
@@ -92,6 +95,11 @@ public class Microcosme implements Runnable {
         entityManager.addEntity(new Rock(1, handler, Position.randomPosition(display.getWidth(), display.getHeight())));
     }
 
+    /**
+     * Game loop
+     * @see Runnable
+     * @see Thread
+     */
     @Override
     public void run() {
 
@@ -139,6 +147,41 @@ public class Microcosme implements Runnable {
         stop();
     }
 
+    // Thread-Friendly start and stop methods
+
+    /**
+     * Start game loop if {@link #running} is false
+     * @see Thread#start
+     */
+    public synchronized void start() {
+
+        if (!running) {
+
+            running = true;
+            thread = new Thread(this);
+            thread.start();
+        }
+    }
+
+    /**
+     * Stop game loop if running is true
+     * @see Thread#join
+     */
+    public synchronized void stop() {
+
+        if (running) {
+
+            try {
+
+                thread.join();
+            } catch (InterruptedException e) {
+
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Game loops
     private void update() {
 
         keyManager.update();
@@ -147,7 +190,6 @@ public class Microcosme implements Runnable {
 
         if (keyManager.exit) System.exit(0);
     }
-
     private void render() {
 
         if (!preRender()) return;
@@ -160,6 +202,14 @@ public class Microcosme implements Runnable {
         postRender();
     }
 
+    /**
+     * Init or re-init variables to perform a render, clear frame, set font
+     * @return false if the {@link #bufferStrategy} is null
+     * @see BufferStrategy
+     * @see Display#getCanvas
+     * @see Graphics
+     * @see
+     */
     private boolean preRender() {
         bufferStrategy = display.getCanvas().getBufferStrategy();
 
@@ -294,29 +344,7 @@ public class Microcosme implements Runnable {
         }
     }
 
-    public synchronized void start() {
-
-        if (!running) {
-
-            running = true;
-            thread = new Thread(this);
-            thread.start();
-        }
-    }
-    public synchronized void stop() {
-
-        if (running) {
-
-            try {
-
-                thread.join();
-            } catch (InterruptedException e) {
-
-                e.printStackTrace();
-            }
-        }
-    }
-
+    // Getters and setters
     public Handler getHandler() {
 
         return handler;

@@ -38,6 +38,7 @@ public class EntityManager {
 
                 if (entity.getHitBox().contains(mousePosition)) {
 
+                    // if clicked entity is already selected, deselecting it
                     if (selectedEntity == entity) selectedEntity = null;
                     else selectedEntity = entity;
                     aFound.set(true);
@@ -64,6 +65,7 @@ public class EntityManager {
         if (selectedEntity != null) selectedEntity.drawSelector(graphics, Color.WHITE);
     }
 
+    // Getters and setters
     public Handler getHandler() {
 
         return handler;

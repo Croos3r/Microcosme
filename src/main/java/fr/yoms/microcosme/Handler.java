@@ -25,6 +25,7 @@ public class Handler {
         keyManager = this.game.getKeyManager();
     }
 
+    // Getters and setters
     public Microcosme getGame() {
 
         return game;

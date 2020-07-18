@@ -110,9 +110,4 @@ public class Headnimal extends Animal {
         graphics.setColor(color);
         graphics.drawOval((int) this.position.getX() - this.getWidth() / 2 - 3, (int) this.position.getY() - this.getHeight() / 2 - 3, this.width + 6, this.height + 6);
     }
-
-    public void setLastMoveTime(long lastMoveTime) {
-
-        this.lastMoveTime = lastMoveTime;
-    }
 }
